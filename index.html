@@ -362,15 +362,9 @@
         margin-top: 12px;
         height: 40px;
         background: var(--g);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 26px;
         position: relative;
         z-index: 10;
       }
-
-    
     </style>
   </head>
   <body>
@@ -543,12 +537,7 @@
       </div>
 
       <!-- FOOTER -->
-      <div class="footer">
-        <div class="footer-right">
-          <div class="footer-arrow">
-          </div>
-        </div>
-      </div>
+      <div class="footer"></div>
     </div>
 
     <script>
@@ -568,7 +557,6 @@
           svc4: "İT Dəstək &amp; Təhlükəsizlik",
           contactLabel: "Əlaqə",
           location: "Bakı, Azərbaycan",
-          cta: "Əlaqə saxlayın →",
           lastname: "Məmmədov",
         },
         en: {
@@ -586,7 +574,6 @@
           svc4: "IT Support &amp; Security",
           contactLabel: "Contact",
           location: "Baku, Azerbaijan",
-          cta: "Get in touch →",
           lastname: "Mammadov",
         },
       };
@@ -606,7 +593,6 @@
         document.getElementById("t-svc4").innerHTML = d.svc4;
         document.getElementById("t-contact-label").textContent = d.contactLabel;
         document.getElementById("t-location").textContent = d.location;
-        document.getElementById("t-cta").textContent = d.cta;
         document.getElementById("t-lastname").textContent = d.lastname;
 
         document.querySelectorAll(".lang-btn").forEach((b) => {
