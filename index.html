@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elcan Məmmədov</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --g: #3ddc68;
+        --bg: #080d09;
+        --bg2: #0d1410;
+        --border: #3ddc6820;
+        --text: #eef2ee;
+        --muted: #6b7d6e;
+        --card-bg: #0f180f;
+      }
+
+      body {
+        background: #040606;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+      }
+
+      .card {
+        width: 405px;
+        height: 620px;
+        background: var(--bg);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.4;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .glow {
+        position: absolute;
+        bottom: -100px;
+        left: -80px;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, #3ddc6818 0%, transparent 65%);
+        pointer-events: none;
+        z-index: 1;
+      }
+      .glow2 {
+        position: absolute;
+        top: 60px;
+        right: -60px;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, #3ddc680e 0%, transparent 65%);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        flex: 0 0 auto;
+        height: 46px;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 26px;
+        position: relative;
+        z-index: 10;
+      }
+      .topbar-left {
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--g);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      /* LANG SWITCHER */
+      .lang-switcher {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        background: #ffffff07;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2px;
+      }
+      .lang-btn {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 3px 10px;
+        border-radius: 16px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: transparent;
+        color: var(--muted);
+        font-family: Arial, sans-serif;
+      }
+      .lang-btn.active {
+        background: var(--g);
+        color: #06100a;
+      }
+      .lang-btn:not(.active):hover {
+        color: var(--text);
+      }
+
+      /* HERO */
+      .hero {
+        flex: 0 0 auto;
+        padding: 22px 26px 18px;
+        position: relative;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .photo-outer {
+        position: relative;
+        flex-shrink: 0;
+      }
+      .photo-ring {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        padding: 2px;
+        background: conic-gradient(
+          var(--g) 0deg 240deg,
+          #3ddc6830 240deg 360deg
+        );
+      }
+      .photo-inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #1a2e1a;
+      }
+      .photo-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        filter: grayscale(15%) brightness(0.9);
+      }
+      .avail-badge {
+        position: absolute;
+        bottom: 3px;
+        right: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--g);
+        border: 2px solid var(--bg);
+        box-shadow: 0 0 6px var(--g);
+      }
+      .name-block {
+        flex: 1;
+      }
+      .full-name {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1.05;
+        margin-bottom: 10px;
+      }
+      .role-pills {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 9px 3px 6px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: #3ddc6809;
+      }
+      .pill-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--g);
+        flex-shrink: 0;
+      }
+      .pill-text {
+        font-size: 0.6rem;
+        font-weight: 600;
+        color: #b8d4bc;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
+      }
+
+      .sep {
+        flex: 0 0 auto;
+        margin: 0 26px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          var(--g) 0%,
+          var(--border) 50%,
+          transparent 100%
+        );
+        position: relative;
+        z-index: 5;
+      }
+
+      /* TAGLINE */
+      .tagline-wrap {
+        flex: 0 0 auto;
+        padding: 16px 26px 14px;
+        position: relative;
+        z-index: 5;
+      }
+      .tagline {
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1.1;
+        margin-bottom: 7px;
+      }
+      .tagline span {
+        color: var(--g);
+      }
+      .tagline-desc {
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* SERVICES */
+      .services-wrap {
+        flex: 0 0 auto;
+        padding: 0 26px 14px;
+        position: relative;
+        z-index: 5;
+      }
+      .section-label {
+        font-size: 0.52rem;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 9px;
+      }
+      .svc-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+      }
+      .svc {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 11px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .svc-ico {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: #3ddc6812;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .svc-ico svg {
+        width: 13px;
+        height: 13px;
+        stroke: var(--g);
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .svc-lbl {
+        font-size: 0.62rem;
+        font-weight: 600;
+        color: #cdd8ce;
+        line-height: 1.3;
+      }
+
+      /* CONTACTS */
+      .contacts-wrap {
+        flex: 1;
+        padding: 0 26px;
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .section-label2 {
+        font-size: 0.52rem;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      .ct {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .ct-ico {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .ct-ico svg {
+        width: 12px;
+        height: 12px;
+        stroke: var(--g);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .ct-val {
+        font-size: 0.69rem;
+        color: #c8d8ca;
+      }
+      .ct-val a {
+        color: var(--g);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      /* FOOTER */
+      .footer {
+        flex: 0 0 auto;
+        margin-top: 12px;
+        height: 50px;
+        background: var(--g);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 26px;
+        position: relative;
+        z-index: 10;
+      }
+      .footer-left {
+        font-size: 1rem;
+        font-weight: 800;
+        color: #06100a;
+        letter-spacing: 0.04em;
+      }
+      .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-url {
+        font-size: 0.58rem;
+        font-weight: 600;
+        color: #06100acc;
+        letter-spacing: 0.06em;
+      }
+      .footer-arrow {
+        width: 24px;
+        height: 24px;
+        background: #06100a22;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .footer-arrow svg {
+        width: 11px;
+        height: 11px;
+        stroke: #06100a;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="glow"></div>
+      <div class="glow2"></div>
+
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <span class="topbar-left" id="t-eyebrow">İT üzrə Mütəxəssis</span>
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('az')">AZ</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="photo-outer">
+          <div class="photo-ring">
+            <div class="photo-inner">
+              <img
+                src="blackPP.jpg"
+                alt="Elcan"
+                onerror="this.style.display = 'none'"
+              />
+            </div>
+          </div>
+          <div class="avail-badge"></div>
+        </div>
+        <div class="name-block">
+          <div class="full-name">
+            Elcan<br /><span id="t-lastname">Məmmədov</span>
+          </div>
+          <div class="role-pills">
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span class="pill-text" id="t-role1">Frontend Proqramçı</span>
+            </div>
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span class="pill-text" id="t-role2">Backend Proqramçı</span>
+            </div>
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span class="pill-text" id="t-role3">Proqram Mühəndisi</span>
+            </div>
+            <div class="pill">
+              <div class="pill-dot"></div>
+              <span class="pill-text" id="t-role4">Sənaye Mühəndisi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- TAGLINE -->
+      <div class="tagline-wrap">
+        <div class="tagline" id="t-tagline">
+          Peşəkar <span>Veb</span><br />və İT Həlləri
+        </div>
+        <div class="tagline-desc" id="t-tagdesc">
+          Müasir texnologiya ilə biznesinizi<br />rəqəmsal dünyada öndə
+          saxlayırıq.
+        </div>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="services-wrap">
+        <div class="section-label" id="t-svc-label">Xidmətlər</div>
+        <div class="svc-row">
+          <div class="svc">
+            <div class="svc-ico">
+              <svg viewBox="0 0 24 24">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <span class="svc-lbl" id="t-svc1">Veb Sayt Hazırlanması</span>
+          </div>
+          <div class="svc">
+            <div class="svc-ico">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
+            <span class="svc-lbl" id="t-svc2">SEO Optimizasiya</span>
+          </div>
+          <div class="svc">
+            <div class="svc-ico">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="13" rx="2" />
+                <path d="M8 21h8M12 16v5" />
+              </svg>
+            </div>
+            <span class="svc-lbl">Domain &amp; Hosting</span>
+          </div>
+          <div class="svc">
+            <div class="svc-ico">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <span class="svc-lbl" id="t-svc4"
+              >İT Dəstək &amp; Təhlükəsizlik</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACTS -->
+      <div class="contacts-wrap">
+        <div class="section-label2" id="t-contact-label">Əlaqə</div>
+        <div class="ct">
+          <div class="ct-ico">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.13 2.9 2 2 0 012.11 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
+              />
+            </svg>
+          </div>
+          <span class="ct-val">
+            <a href="https://wa.me/994504180032" target="_blank"
+              >+994 50 418 00 32</a
+            >
+          </span>
+        </div>
+        <div class="ct">
+          <div class="ct-ico">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+          </div>
+          <span class="ct-val">
+            <a href="mailto:elcan.memmedov@div.edu.az"
+              >elcan.memmedov@div.edu.az</a
+            >
+          </span>
+        </div>
+        <div class="ct">
+          <div class="ct-ico">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"
+              />
+            </svg>
+          </div>
+          <span class="ct-val">
+            <a href="https://www.elcanmammadov.com" target="_blank"
+              >www.elcanmammadov.com</a
+            >
+          </span>
+        </div>
+        <div class="ct">
+          <div class="ct-ico">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <span class="ct-val" id="t-location">Bakı, Azərbaycan</span>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <span class="footer-left" id="t-cta">Əlaqə saxlayın →</span>
+        <div class="footer-right">
+          <span class="footer-url">elcanmammadov.com</span>
+          <div class="footer-arrow">
+            <svg viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const t = {
+        az: {
+          eyebrow: "İT üzrə Mütəxəssis",
+          role1: "Frontend Proqramçı",
+          role2: "Backend Proqramçı",
+          role3: "Proqram Mühəndisi",
+          role4: "Sənaye Mühəndisi",
+          tagline: "Peşəkar <span>Veb</span><br/>və İT Həlləri",
+          tagdesc:
+            "Müasir texnologiya ilə biznesinizi<br/>rəqəmsal dünyada öndə saxlayırıq.",
+          svcLabel: "Xidmətlər",
+          svc1: "Veb Sayt Hazırlanması",
+          svc2: "SEO Optimizasiya",
+          svc4: "İT Dəstək &amp; Təhlükəsizlik",
+          contactLabel: "Əlaqə",
+          location: "Bakı, Azərbaycan",
+          cta: "Əlaqə saxlayın →",
+          lastname: "Məmmədov",
+        },
+        en: {
+          eyebrow: "IT Specialist",
+          role1: "Frontend Developer",
+          role2: "Backend Developer",
+          role3: "Software Engineer",
+          role4: "Industrial Engineer",
+          tagline: "Professional <span>Web</span><br/>& IT Solutions",
+          tagdesc:
+            "Keeping your business ahead<br/>in the digital world with modern tech.",
+          svcLabel: "Services",
+          svc1: "Website Development",
+          svc2: "SEO Optimization",
+          svc4: "IT Support &amp; Security",
+          contactLabel: "Contact",
+          location: "Baku, Azerbaijan",
+          cta: "Get in touch →",
+          lastname: "Mammadov",
+        },
+      };
+
+      function setLang(lang) {
+        const d = t[lang];
+        document.getElementById("t-eyebrow").textContent = d.eyebrow;
+        document.getElementById("t-role1").textContent = d.role1;
+        document.getElementById("t-role2").textContent = d.role2;
+        document.getElementById("t-role3").textContent = d.role3;
+        document.getElementById("t-role4").textContent = d.role4;
+        document.getElementById("t-tagline").innerHTML = d.tagline;
+        document.getElementById("t-tagdesc").innerHTML = d.tagdesc;
+        document.getElementById("t-svc-label").textContent = d.svcLabel;
+        document.getElementById("t-svc1").textContent = d.svc1;
+        document.getElementById("t-svc2").textContent = d.svc2;
+        document.getElementById("t-svc4").innerHTML = d.svc4;
+        document.getElementById("t-contact-label").textContent = d.contactLabel;
+        document.getElementById("t-location").textContent = d.location;
+        document.getElementById("t-cta").textContent = d.cta;
+        document.getElementById("t-lastname").textContent = d.lastname;
+
+        document.querySelectorAll(".lang-btn").forEach((b) => {
+          b.classList.toggle("active", b.textContent === lang.toUpperCase());
+        });
+      }
+    </script>
+  </body>
+</html>
